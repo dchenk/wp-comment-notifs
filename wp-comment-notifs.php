@@ -67,8 +67,8 @@ if (!class_exists('WP_Comment_Notifs')) {
 		}
 
 		public function wp_comment_notification_checkbox_render() {
-			$options = get_option('wp_comment_notification_settings'); ?>
-			<input type='checkbox' name='wp_comment_notification_settings[wp_comment_notification_author]' <?php checked($options['wp_comment_notification_author'], 1); ?> value='1'>
+			$notify_author = !empty(get_option('wp_comment_notification_settings')['wp_comment_notification_author']); ?>
+			<input type='checkbox' name='wp_comment_notification_settings[wp_comment_notification_author]' <?php checked($notify_author); ?> value='1'>
 			<?php
 		}
 
@@ -126,7 +126,7 @@ if (!class_exists('WP_Comment_Notifs')) {
 			$emails = explode(',', $this->get_notification_mail_ids());
 
 			// Add author's email.
-			if (isset($options['wp_comment_notification_author']) && $options['wp_comment_notification_author'] == '1') {
+			if (!empty($options['wp_comment_notification_author'])) {
 				$author = get_userdata($post->post_author);
 				if ($author) {
 					$emails[] = $author->user_email;
